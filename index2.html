@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.1.0/jquery.min.js" type="text/javascript"></script> 
+<script src="https://pystrike.com/js/skulpt.min.js" type="text/javascript"></script> 
+<script src="https://pystrike.com/js/skulpt-stdlib.js" type="text/javascript"></script> 
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
+
+    .off {
+        display: none;
+    }
+
+    .code-output {
+        font-size: 17px;
+    }
+
+    .code-editor-container {
+        /*position: absolute;*/
+        height: 325px;
+        width: 680px;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+    
+    .input-container {
+        display: flex;
+    }
+    
+    .container {
+        border: 2.5px solid #616A6B;
+        width: 360px;
+        height: 275px;
+        padding: 10px;
+        background-color: #BDD7EE;
+        margin-left: -20px;
+        box-sizing: border-box;
+    }
+    
+    .output-container {
+        border-right: 2.5px solid #616A6B;
+        border-top: 2.5px solid  #616A6B;
+        border-bottom: 2.5px solid  #616A6B;
+    
+        font-family: Arial, Helvetica, sans-serif;
+        width: 360px;
+        height: 275px;
+        padding: 10px;
+        overflow: auto;
+        background-color: white;
+        margin-right: -60px;
+        box-sizing: border-box;
+    }
+    
+    .code-editor-containerheader {
+        font-family: Arial, Helvetica, sans-serif;
+        padding: 10px;
+        font-size: 14px;
+        background-color: gray;
+        color: #fff;
+        width: 720px;
+        height: 58px;
+        box-sizing: border-box;
+        margin-bottom: -20px;
+    }
+    
+    .logo-img {
+        width: 50px;
+        height: 50px;
+        margin-top: -5px;
+    }
+    
+    .yourcode {
+        font-family: 'Fira Code', Helvetica, sans-serif;
+        resize: none;
+        width: 333px;
+        height: 200px;
+        margin-bottom: 10px;
+        border: 1px solid #616A6B;
+        font-size: 14px;
+        background-color: #1B2334;
+        color: white;
+    }
+    
+    .yourcode-fb {
+        font-family: 'Fira Code', Helvetica, sans-serif;
+        resize: none;
+        width: 333px;
+        height: 200px;
+        margin-top: -6px;
+        border: 1px solid #616A6B;
+        font-size: 14px;
+        background-color: #1B2334;
+        color: white;
+    }
+    
+    .function-button {
+        text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 14px;
+          transition-duration: 0.4s;
+          padding: 6px;
+          cursor: pointer;
+          background-color: #3775A8;
+          color: white;
+          border:none;
+          border-radius: 7px;
+          width: 100px;
+    }
+    
+    .pre {
+        font-family: 'Fira Code', Helvetica, sans-serif;        
+        font-size: 14px;
+        color: white;
+        width: 333px;
+        height: 200px;
+        overflow: auto;
+        margin: 0px;
+        padding: 10px;
+    }
+    
+    @media screen and (max-width: 480px) {
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            width: 360px;
+            margin-right: 0;
+        }
+    
+
+        .output-container {
+            /* border-right: 2.5px solid #616A6B;
+            border-top: 2.5px solid  #616A6B;
+            border-bottom: 2.5px solid  #616A6B; */
+
+            border: 2.5px solid #616A6B;
+        
+            font-family: Arial, Helvetica, sans-serif;
+            width: 360px;
+            height: 275px;
+            padding: 10px;
+            overflow: auto;
+            background-color: white;
+            margin-left: -20px;
+            box-sizing: border-box;
+        }
+
+        .code-editor-containerheader {
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 10px;
+            font-size: 14px;
+            background-color: gray;
+            color: #fff;
+            width: 360px;
+            height: 58px;
+            box-sizing: border-box;
+            margin-bottom: -20px;
+            margin-right: 0;
+        }
+
+        .code-editor-container {
+            /*position: absolute;*/
+            height: 590px;
+            width: 360px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+    }
+    
+    </style>
+
+<div class="code-editor-containerheader">
+    <img src="https://pystrike.com/js/PyStrike_Logo.png" class="logo-img">
+</div>
+    
+<div class="code-editor-container">
+
+      <div class="input-container">
+        <div class="container">
+            <form class="code-editor"> 
+                <textarea spellcheck="false" cols="11" class="txt-area yourcode"
+                id="yourcode1" rows="10">print("Hello World")</textarea><br /> 
+                <button class="function-button run-button" type="button" onclick="runit1()">Run</button> 
+                <button id="clear1" class="function-button" type="button">Clear</button> 
+            </form>
+        </div>
+    
+        <div class="output-container">
+            <pre class=" code-output" id="code-output1"></pre>
+        </div>
+      </div>
+</div>
+
+<script>
+    const output1 = document.getElementById("code-output1");
+    const clearButton1 = document.getElementById("clear1")
+    
+    clearButton1.addEventListener("click", () => {
+        output1.innerHTML = ""
+    })
+    
+    // output functions are configurable.  This one just appends some text
+    // to a pre element.
+    function outf1(text) { 
+        var mypre1 = document.getElementById("code-output1"); 
+        mypre1.innerHTML = mypre1.innerHTML + text; 
+    } 
+    function builtinRead1(x) {
+        if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
+                throw "File not found: '" + x + "'";
+        return Sk.builtinFiles["files"][x];
+    }
+    
+    // Here's everything you need to run a python program in skulpt
+    // grab the code from your textarea
+    // get a reference to your pre element for output
+    // configure the output function
+    // call Sk.importMainWithBody()
+    function runit1() { 
+       var prog1 = document.getElementById("yourcode1").value; 
+       var mypre1 = document.getElementById("code-output1"); 
+       mypre1.innerHTML = ''; 
+       Sk.pre = "output";
+       Sk.configure({output:outf1, read:builtinRead1}); 
+       
+       var myPromise1 = Sk.misceval.asyncToPromise(function() {
+           return Sk.importMainWithBody("<stdin>", false, prog1, true);
+       });
+       myPromise1.then(function(mod) {
+           console.log('success');
+       },
+           function(err) {
+           output1.innerHTML = err.toString();
+       });
+    } 
+</script> 
+</body>
+</html>
